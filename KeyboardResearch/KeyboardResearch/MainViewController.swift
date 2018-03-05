@@ -8,35 +8,44 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainTableViewController: UITableViewController {
     
-    var tableView: UITableView = UITableView()
-    var navigationItems: [String] = ["Default", "ASCII Capable", "Numbers and Punctuation", "URL", "Number Pad", "Phone Pad", "Name Phone Pad", "Email Address", "Decimal Pad", "Twitter", "Web Search"]
+    let navigationItems: [String] = ["Default", "ASCII Capable", "Numbers and Punctuation", "URL", "Number Pad", "Phone Pad", "Name Phone Pad", "Email Address", "Decimal Pad", "Twitter", "Web Search"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        setupNavigationBar()
+        setupTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func setupNavigationBar() {
+        navigationItem.title = "Keyboard Types"
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func setupTableView() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell-id")
     }
-    */
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return navigationItems.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell-id", for: indexPath)
 
+        cell.textLabel?.text = navigationItems[indexPath.row]
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Tapped")
+        let viewController = KeyboardViewController()
+        self.show(viewController, sender: self)
+        
+    }
 }
+
+
+
+
